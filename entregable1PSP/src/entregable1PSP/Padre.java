@@ -21,13 +21,9 @@ public class Padre {
 		while (pr.isAlive()) {
 			byte[] buffer = new byte[4000];
 			int in = System.in.available();
-			try {
-				Thread.sleep(5000); //se introduce un retardo de 10 milisegundos
-			}catch (InterruptedException e) {
-				e.printStackTrace();
-				Thread.currentThread().interrupt();
-			}
+			//Compruebo si hay datos en la consola
 			if(in > 0) {
+				//si los hay, mando los datos a la clase hija
 				int n = System.in.read(buffer, 0, Math.min(in, buffer.length));
 				os.write(buffer, 0, n);
 				os.flush();
@@ -39,6 +35,7 @@ public class Padre {
 				e.printStackTrace();
 				Thread.currentThread().interrupt();
 			}
+			//bucle para imprimir los mensajes de la clase hija
 			while ((line = br.readLine()) != null) {
 				System.out.println(line);
 			}
