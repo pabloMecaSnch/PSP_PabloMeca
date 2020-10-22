@@ -19,6 +19,7 @@ public class Padre {
 		OutputStream os = pr.getOutputStream();
 		String line;
 		while (pr.isAlive()) {
+			System.out.println("inicio bucle");
 			byte[] buffer = new byte[4000];
 			int in = System.in.available();
 			//Compruebo si hay datos en la consola
@@ -36,9 +37,12 @@ public class Padre {
 				Thread.currentThread().interrupt();
 			}
 			//bucle para imprimir los mensajes de la clase hija
+			
 			while ((line = br.readLine()) != null) {
+				System.out.println("bucle");
 				System.out.println(line);
 			}
+			System.out.println("fin bucle");
 		}
 		System.out.println(pr.exitValue());
 	}

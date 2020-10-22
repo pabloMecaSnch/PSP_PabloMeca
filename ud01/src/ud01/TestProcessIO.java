@@ -16,9 +16,8 @@ public class TestProcessIO {
 	}
 
 	public static void main(String[] args) throws IOException {
-		ProcessBuilder builder = new ProcessBuilder("cmd.exe"); //definimos el shell de windows como proceso a ejecutar
-		builder.redirectErrorStream(true); //redirige el buffer de error a la salida estándar
-		Process process = builder.start();
+		Process proceso = Runtime.getRuntime().exec("javac -cp src src/entregable1PSP/Hija.java");
+		Process process = Runtime.getRuntime().exec("java -cp src entregable1PSP/Hija");
 		InputStream out = process.getInputStream(); //configuramos la salida del proceso hijo
 		OutputStream in = process.getOutputStream(); //configuramos la entrada del proceso hijo
 
