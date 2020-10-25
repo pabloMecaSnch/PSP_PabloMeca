@@ -78,9 +78,14 @@ public class Hija {
 				}
 				if(entrada.equalsIgnoreCase("ayuda")) {
 					System.out.println("-Reservar mesa:  Comienza el proceso para reservar mesa");
+					System.out.println("-salir: cancela la reserva");
 					correcto=true;
 				}
-
+				if(entrada.equalsIgnoreCase("salir")) {
+					correcto=true;
+					System.out.println("Reserva cancelada");
+					n2=3;
+				}
 				if (!correcto) {
 					System.out.println("lo siento, no te entendido");
 				}
