@@ -10,12 +10,13 @@ import java.util.Date;
 public class Hija {
 
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
 		int n = 1;
 		int n2 = 0;
 		String entrada;
 		// variables booleanas creadas para mejorar el control durante el proceso
-		boolean fecha = false,mesas=false,correcto;
+		boolean fecha = false;
+		boolean mesas=false;
+		boolean correcto=false;
 		/*
 		 * correcto: la uso para que el programa sepa que se ha introducido una opcion correcta, de no ser así, se enviria un mensaje.
 		 * mesa: la uso para que el programa sepa que ya se ha introducido el primer comando y ahora debe preguntar por el numero de mesas.
@@ -48,7 +49,7 @@ public class Hija {
 				if(fecha) {
 					try {
 						f = sdf.parse(entrada);
-						System.out.println("fecha: "+sdf.format(f).toString()+"\nLa reserva se ha realizado con éxito, ¡muchas gracias!");
+						System.out.println("fecha: "+sdf.format(f)+"\nLa reserva se ha realizado con éxito, ¡muchas gracias!");
 						n2=2;
 						correcto= true;
 					}catch(ParseException e) {
@@ -73,7 +74,7 @@ public class Hija {
 					correcto = true;
 					//Si el dato no es un numero recojo la excepcion generada por el metodo parseInt y dejo que el programa siga su ejecución
 				} catch (NumberFormatException e) {
-					// TODO: handle exception
+					correcto=false;
 				}
 				}
 				if(entrada.equalsIgnoreCase("ayuda")) {
@@ -95,7 +96,6 @@ public class Hija {
 	}
 //Metodo que maneja el dato del numero de personas para devolver el numero de mesas reservadas
 	private static int calcNumeMesas(int i) {
-		// TODO Auto-generated method stub
 		int num = 1;
 		if (i >= 6 && i <= 12) {
 			num = 2;

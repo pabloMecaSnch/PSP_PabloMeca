@@ -1,11 +1,9 @@
 package entregable1PSP;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+
 import java.io.OutputStream;
-import java.util.Scanner;
 
 public class Padre {
 
@@ -18,12 +16,11 @@ public class Padre {
 		InputStream is = pr.getInputStream();
 		//Aqui programo el input de la clase  para que los datos que se escriban en la consola de la clase Padre vayan al input de la clase Hija
 		OutputStream os = pr.getOutputStream();
-		String line;
 		//Compruebo que la clase Hija esta en ejecucion
 		while (pr.isAlive()) {
 			//Creacion de un buffer para comunicar las dos clases
 			byte[] buffer = new byte[4000];
-			int in = System.in.available();
+			//int in = System.in.available();
 			//Compruebo si hay datos de la clase Hija por imprimir
 			//bucle para imprimir los mensajes de la clase hija
 			int no = is.available();
@@ -49,5 +46,5 @@ public class Padre {
 		}
 		System.out.println(pr.exitValue());
 	}
-
 }
+
