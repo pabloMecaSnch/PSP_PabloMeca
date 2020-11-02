@@ -1,7 +1,6 @@
 package ejHilo2;
 
 public class Hilo2 extends Thread{
-	
 	Hilo2(){
 		
 	}
