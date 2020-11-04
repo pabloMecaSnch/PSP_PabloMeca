@@ -1,4 +1,4 @@
-package ejercicio3;
+import java.util.concurrent.Semaphore;
 
 public class Sumador extends Thread{
 	private int cuenta;
@@ -16,7 +16,7 @@ public class Sumador extends Thread{
 		for(int i=0; i<cuenta; i++) {
 			try {
 				sem.acquire();
-			}catch(InterruptefEsception e) {
+			}catch(InterruptedException e) {
 				e.printStackTrace();
 			}
 			sumar();
