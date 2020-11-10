@@ -18,50 +18,27 @@ public class CuentaVocal extends Thread {
 
 	public CuentaVocal(char vocal) {
 		this.vocal = vocal;
-	}
-
-	@Override
-	public void run() {
-		String linea;
-		/*try {
-			fw = new FileWriter("./src/archivo.txt");
-			fw.write("aeiou");
-			fw.close();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			System.out.println(e1.getMessage());
-		}
-*/
 		try {
 
-			File f = new File("./src/archivo.txt");
+			File f = new File("./src/ej6/archivo.txt");
 			fr = new FileReader(f);
 			br = new BufferedReader(fr);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
-//		leerArchivo();
-		try {
-			while ((linea = br.readLine()) != null) {
-				for (int i = 0; i < linea.length(); i++) {
-					if (linea.charAt(i) == this.vocal) {
-						sumaVocal();
-					}
-				}
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
-/*
- * al intentar invocar este metodo dentro del metod run() del hilo me da fallo
+
+	@Override
+	public void run() {		
+		leeArchivo();
+	}
 	private void leeArchivo()  {
 		String linea;
 		try {
 			while ((linea = br.readLine()) != null) {
-				for (int i = 0; i <= linea.length(); i++) {
+				for (int i = 0; i < linea.length(); i++) {
+					linea=linea.toLowerCase();
 					if (linea.charAt(i) == this.vocal) {
 						sumaVocal();
 					}
@@ -72,7 +49,6 @@ public class CuentaVocal extends Thread {
 			e.printStackTrace();
 		}
 	}
-*/
 	private synchronized void sumaVocal() {
 		var.totalVocales++;
 	}
