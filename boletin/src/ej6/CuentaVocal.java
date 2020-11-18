@@ -11,11 +11,10 @@ import java.io.InputStreamReader;
 public class CuentaVocal extends Thread {
 
 	private char vocal;
-	private FileWriter fw;
 	private ContadorGlobal var;
 	private BufferedReader br;
 	private FileReader fr;
-
+	private Object sincronizador = new Object();
 	public CuentaVocal(char vocal) {
 		this.vocal = vocal;
 		try {
@@ -40,7 +39,9 @@ public class CuentaVocal extends Thread {
 				for (int i = 0; i < linea.length(); i++) {
 					linea=linea.toLowerCase();
 					if (linea.charAt(i) == this.vocal) {
-						sumaVocal();
+						synchronized (sincronizador) {
+							var.totalVocales++;
+						}
 					}
 				}
 			}
@@ -49,8 +50,9 @@ public class CuentaVocal extends Thread {
 			e.printStackTrace();
 		}
 	}
-	private synchronized void sumaVocal() {
+	
+	/*private synchronized void sumaVocal() {
 		var.totalVocales++;
-	}
+	}*/
 
 }

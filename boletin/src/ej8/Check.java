@@ -9,7 +9,7 @@ public class Check {
 		HiloLector h2 = new HiloLector(buffer);
 		
 		
-		//buffer.muestra();
+		buffer.muestra();
 		System.out.println("--------------------------------------");
 		h1.start();
 		h2.start();
@@ -20,7 +20,7 @@ public class Check {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//buffer.muestra();
+		buffer.muestra();
 		
 		
 	}
