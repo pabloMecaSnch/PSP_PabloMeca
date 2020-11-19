@@ -9,7 +9,7 @@ public class Principal {
 		hilos = new CuentaVocal[vocales.length];
 		for (int i = 0; i < vocales.length; i++) {
 			hilos[i]=  new CuentaVocal(vocales[i]);
-			hilos[i].run();
+			hilos[i].start();
 		}
 		for (int i = 0; i < hilos.length; i++) {
 			hilos[i].join();

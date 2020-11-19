@@ -14,14 +14,16 @@ public class Parking {
 		}
 	}
 
-	public int estaLLeno() {
+	public synchronized int estaLLeno() {
 		int nPlaza = -1;
-		for (int i = 0; i < plazas.length; i++) {
-			if (plazas[i] == null) {
-				lleno = false;
+		boolean enc = false;
+		for (int i = 0; i < plazas.length && enc == false; i++) {
+			if (plazas[i].getCoche() == null) {
+				//lleno = false;
 				nPlaza = i;
+				enc = true;
 			} else {
-				lleno = true;
+//				lleno = true;
 			}
 		}
 		return nPlaza;
@@ -35,6 +37,7 @@ public class Parking {
 			System.out.println("El coche "+ c.getIdCoche()+ "ha entrado en la plaza "+nPlaza);
 			plazasTotales--;
 			System.out.println(plazasTotales);
+			muestraParking();
 		}else {
 			try {
 				wait();
@@ -46,13 +49,25 @@ public class Parking {
 	}
 	
 	public synchronized void sale(Coche c) {
-		lleno = false;
+//		lleno = false;
 		System.out.println("El coche "+c.getIdCoche()+" sale del parking de la plaza "+c.getPlaza().getPos());
+		int pos = c.getPlaza().getPos();
+		plazas[pos]= new Plaza(pos);
 		c.getPlaza().setCoche(null);;
 		c.setPlaza(null);
 		plazasTotales++;
 		System.out.println("Plazas totales: "+plazasTotales);
-		notifyAll();
+		muestraParking();
+		notify();
+	}
+	
+	public void muestraParking() {
+		for (int i = 0; i < plazas.length; i++) {
+			int x=1;
+			if(plazas[i].getCoche() == null)
+				x=0;
+			System.out.print("["+x+"]  ");
+		}
 	}
 
 }

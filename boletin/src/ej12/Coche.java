@@ -33,10 +33,11 @@ public class Coche extends Thread {
 	
 	@Override
 	public void run() {
-		double time = Math.random()*1000;
+		System.out.println("Empieza hilo coche "+this.idCoche);
+		double time = Math.random()*10000;
 		p.aparca(this);
 		try {
-			wait((long) time);
+			Thread.sleep((long)time);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
