@@ -5,6 +5,7 @@ public class Parking {
 	public static Plaza[] plazas;
 	public static boolean lleno = false;
 	private int plazasTotales;
+	
 	public Parking(int numPlazas) {
 		this.plazasTotales = numPlazas;
 		this.plazas = new Plaza[numPlazas];
@@ -26,7 +27,7 @@ public class Parking {
 		return nPlaza;
 	}
 
-	public void aparca(Coche c) {
+	public synchronized void aparca(Coche c) {
 		int nPlaza = estaLLeno();
 		if (nPlaza != -1) {
 			plazas[nPlaza] = new Plaza(c,nPlaza);
@@ -44,11 +45,13 @@ public class Parking {
 		}
 	}
 	
-	public void sale(Coche c) {
+	public synchronized void sale(Coche c) {
 		lleno = false;
+		System.out.println("El coche "+c.getIdCoche()+" sale del parking de la plaza "+c.getPlaza().getPos());
 		c.getPlaza().setCoche(null);;
 		c.setPlaza(null);
 		plazasTotales++;
+		System.out.println("Plazas totales: "+plazasTotales);
 		notifyAll();
 	}
 

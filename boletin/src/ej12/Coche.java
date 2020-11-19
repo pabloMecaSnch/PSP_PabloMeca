@@ -8,9 +8,10 @@ public class Coche extends Thread {
 	private int idCoche;
 	private Plaza plaza;
 	
-	public Coche(int id) {
+	public Coche(int id,Parking p) {
 		this.idCoche = id;
 		this.plaza = null;
+		this.p = p;
 	}
 
 	public Coche() {
