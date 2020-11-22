@@ -24,6 +24,10 @@ public class Plaza {
 		this.ocupado = c;
 	}
 	
+	public void saleCoche() {
+		this.ocupado = null;
+	}
+	
 	public int getPos() {
 		return this.pos;
 	}

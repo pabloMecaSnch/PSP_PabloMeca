@@ -7,11 +7,12 @@ public class Coche extends Thread {
 	
 	private int idCoche;
 	private Plaza plaza;
-	
+	public int turno;
 	public Coche(int id,Parking p) {
 		this.idCoche = id;
 		this.plaza = null;
 		this.p = p;
+		this.turno = id;
 	}
 
 	public Coche() {
@@ -33,8 +34,8 @@ public class Coche extends Thread {
 	
 	@Override
 	public void run() {
-		System.out.println("Empieza hilo coche "+this.idCoche);
-		double time = Math.random()*10000;
+		System.out.println("\nEmpieza hilo coche "+this.idCoche + "  Turno: "+this.turno);
+		double time = Math.random()*1000;
 		p.aparca(this);
 		try {
 			Thread.sleep((long)time);
