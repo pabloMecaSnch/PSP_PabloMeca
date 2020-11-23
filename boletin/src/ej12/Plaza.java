@@ -1,8 +1,10 @@
 package ej12;
 
+import ej12Camiones.Camion;
+
 public class Plaza {
 
-	private Coche ocupado;
+	private Object ocupado;
 	private int pos;
 	
 	public Plaza(int i) {
@@ -14,13 +16,23 @@ public class Plaza {
 		this.ocupado = c;
 		this.pos = i;
 	}
+	public Plaza(Camion c, int i) {
+		this.ocupado = c;
+		this.pos = i;
+	}
 	
 	public Coche getCoche(){
 		
+		return (Coche)this.ocupado;
+	}
+	public Object getVehiculo() {
 		return this.ocupado;
 	}
 	
 	public void setCoche(Coche c) {
+		this.ocupado = c;
+	}
+	public void setCamion(Camion c) {
 		this.ocupado = c;
 	}
 	

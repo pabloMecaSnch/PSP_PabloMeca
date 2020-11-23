@@ -3,7 +3,7 @@ package ej12;
 public class Parking {
 
 	public static Plaza[] plazas;
-	private int plazasTotales;
+	public int plazasTotales;
 	public static int siguiente;
 
 	public Parking(int numPlazas) {
@@ -19,7 +19,7 @@ public class Parking {
 		int nPlaza = -1;
 		boolean enc = false;
 		for (int i = 0; i < plazas.length && enc == false; i++) {
-			if (plazas[i].getCoche() == null) {
+			if (plazas[i].getVehiculo() == null) {
 				nPlaza = i;
 				enc = true;
 			}
@@ -71,7 +71,7 @@ public class Parking {
 	public void muestraParking() {
 		for (int i = 0; i < plazas.length; i++) {
 			int x = 1;
-			if (plazas[i].getCoche() == null)
+			if (plazas[i].getVehiculo() == null)
 				x = 0;
 			System.out.print("[" + x + "]  ");
 		}
