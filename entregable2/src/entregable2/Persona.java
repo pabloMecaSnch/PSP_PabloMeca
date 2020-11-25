@@ -34,6 +34,7 @@ public class Persona extends Thread {
 					getTarjetaIzqrd(posTarjeta[0]);
 				} else {
 					wait();
+					Thread.sleep((long)Math.random()*100);
 					i++;
 				}
 			} catch (InterruptedException e) {
@@ -80,7 +81,9 @@ public class Persona extends Thread {
 					getTarjetaDrch(0, posTarjeta[1]);
 
 				} else {
+					System.out.println("no encuentro tarjeta");
 					wait();
+					Thread.sleep((long)Math.random()*2000);
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -91,6 +94,7 @@ public class Persona extends Thread {
 	private synchronized void getTarjetaDrch(int intentos, int posTarjeta) {
 		this.tarjetaDrch = true;
 		o.Tarjetas[posTarjeta] = false;
+		System.out.println("Cojo mi tarjeta de la derecha");
 		if (this.tarjetaIzqd == true) {
 			System.out.println("Persona: "+this.idPersona+": Intento usar el pc");
 			o.usaOrdenador(this);
