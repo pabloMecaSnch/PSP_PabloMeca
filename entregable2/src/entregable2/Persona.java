@@ -5,8 +5,28 @@ import javax.sql.rowset.spi.SyncResolver;
 public class Persona extends Thread {
 	Ordenador o;
 	private int idPersona;
-	public Tarjeta tarjetaIzqd;
-	public Tarjeta tarjetaDrch;
+	private Tarjeta tarjetaIzqd;
+	private Tarjeta tarjetaDrch;
+
+	public Tarjeta getTarjetaIzqd() {
+		return tarjetaIzqd;
+	}
+
+	public void setTarjetaIzqd(Tarjeta tarjetaIzqd) {
+		this.tarjetaIzqd = tarjetaIzqd;
+	}
+
+	public Tarjeta getTarjetaDrch() {
+		return tarjetaDrch;
+	}
+
+	public void setTarjetaDrch(Tarjeta tarjetaDrch) {
+		this.tarjetaDrch = tarjetaDrch;
+	}
+
+	public void setIdPersona(int idPersona) {
+		this.idPersona = idPersona;
+	}
 
 	Persona(int id, Ordenador o) {
 		this.idPersona = id;
@@ -38,8 +58,10 @@ public class Persona extends Thread {
 
 	/**
 	 * Método que suleta las tarjetas
+	 * <ol>
 	 * <li>si tiene las tarjetas las suelta</li>
 	 * <li>si no tiene las tarjetas, no las suelta</li>
+	 * </ol>
 	 */
 	private synchronized void sueltaTarjetas() {
 		// TODO Auto-generated method stub
@@ -74,7 +96,9 @@ public class Persona extends Thread {
 
 	/**
 	 * Método que busca la tarjeta de su derecha
+	 * <ol>
 	 * <li>si no tiene la tarjeta de la derecha la coge</li>
+	 * </ol>
 	 */
 	public void buscaTarjetaDrch() {
 		System.out.println("Persona: " + this.idPersona + " buscando tarjeta derecha");
@@ -87,7 +111,9 @@ public class Persona extends Thread {
 
 	/**
 	 * Método que busca la tarjeta de su izquierda
+	 * <ol>
 	 * <li>si no tiene la tarjeta de la izquierda la coge</li>
+	 * </ol>
 	 */
 	public void buscaTarjetaIzqrd() {
 		System.out.println("Persona: " + this.idPersona + " buscando tarjeta izquierda");
@@ -101,8 +127,10 @@ public class Persona extends Thread {
 	 * Método usado para obtener la posición de la tarjeta en función de la persona
 	 * @param id Identificador de la persona
 	 * @return Array de dos posiciones 
+	 * <ol>
 	 * <li>[0]Usada para guardar la tarjeta de la izquierda</li>
 	 * <li>[1]Usada para guardar la tarjeta de la derecha</li>
+	 * </ol>
 	 */
 	private int[] getPosicion(int id) {
 		int[] posTarjeta = new int[2];

@@ -18,7 +18,7 @@ public class Ordenador {
 	public synchronized void cogeTarjetaDrch(int pos,Persona p) {
 		// TODO Auto-generated method stub
 		if (this.tarjetas[pos].p == null) {	
-			p.tarjetaDrch = this.tarjetas[ pos ];
+			p.setTarjetaDrch(this.tarjetas[ pos ]);
 			this.tarjetas[ pos ].p = p;
 			System.out.println("La persona :" + p.getIdPersona() + " pilla la tarjeta dr");
 		} else {
@@ -38,7 +38,7 @@ public class Ordenador {
 	public synchronized void cogeTarjetaIzqrd(int pos,Persona p) {
 		// TODO Auto-generated method stub
 		if (this.tarjetas[pos].p == null) {	
-			p.tarjetaIzqd = this.tarjetas[ pos ];
+			p.setTarjetaIzqd(this.tarjetas[ pos ]);
 			this.tarjetas[ pos ].p = p;
 			System.out.println("La persona :" + p.getIdPersona() + " pilla la tarjeta iz");
 		} else {
