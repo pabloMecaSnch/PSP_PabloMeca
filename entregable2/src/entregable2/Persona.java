@@ -1,173 +1,118 @@
 package entregable2;
 
+import javax.sql.rowset.spi.SyncResolver;
+
 public class Persona extends Thread {
 	Ordenador o;
 	private int idPersona;
-	public boolean tarjetaIzqd;
-	public boolean tarjetaDrch;
+	public Tarjeta tarjetaIzqd;
+	public Tarjeta tarjetaDrch;
 
 	Persona(int id, Ordenador o) {
 		this.idPersona = id;
 		this.o = o;
 	}
 
-	/**
-	 * Método que se utiliza para intentar coger la tarjeta izquierda durante tres
-	 * intentos. Si consigue dicha tarjeta, intenta coger la derecha durante otros
-	 * tres intentos. e intenta usar el ordenador.
-	 * 
-	 * Si la tajeta a su izquierda no se encuentra disponible, entrará en wait() y
-	 * volverá a ejecutarse a sí mismo incrementando el valor de la variable
-	 * intento. Si no a logrado encontrar la tajeta, la soltará para que otra
-	 * persona que la necesite la puede coger.
-	 * 
-	 * @param intentos el número con el que se inicializa el valor del primer
-	 *                 intento
-	 * 
-	 */
-	public synchronized void hayTarjetaIzqd() {
-		System.out.println("Buscando tarjeta izquierda (Persona: " + this.idPersona + ")");
-		int[] posTarjeta = buscaTarjetas(this.idPersona);
-		for (int i = 0; i < 3;) {
-			try {
-				if (o.Tarjetas[posTarjeta[0]] == true) {
-					getTarjetaIzqrd(posTarjeta[0]);
-				} else {
-					wait();
-					Thread.sleep((long)Math.random()*100);
-					i++;
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			this.tarjetaIzqd = false;
-			o.Tarjetas[posTarjeta[0]] = true;
-			this.tarjetaDrch = false;
-			o.Tarjetas[posTarjeta[1]] = true;
-			notifyAll();
-		}
-	}
-
-	public void getTarjetaIzqrd(int posTarjeta) {
-		this.tarjetaIzqd = true;
-		o.Tarjetas[posTarjeta] = false;
-		if (this.tarjetaDrch == true) {
-			System.out.println("Persona: "+this.idPersona+": Intento usar el pc");
-			o.usaOrdenador(this);
-		}
-
-	}
-
-	/**
-	 * Método que se utiliza para intentar coger la tarjeta derecha durante tres
-	 * intentos. Si consigue dicha tarjeta, intenta coger la izquierda durante otros
-	 * tres intentos e intenta usar el ordenador.
-	 * 
-	 * Si la tajeta a su derecha no se encuentra disponible, entrará en wait() y
-	 * volverá a ejecutarse a sí mismo incrementando el valor de la variable
-	 * intento. Si no a logrado encontrar la tajeta, la soltará para que otra
-	 * persona que la necesite la puede coger.
-	 * 
-	 * @param intentos el número con el que se inicializa el valor del primer
-	 *                 intento
-	 * 
-	 */
-	public synchronized void hayTarjetaDrch() {
-		System.out.println("Buscando tarjeta derecha (Persona: " + this.idPersona + ")");
-		int[] posTarjeta = buscaTarjetas(this.idPersona);
-		while (this.tarjetaDrch == false) {
-			try {
-				if (o.Tarjetas[posTarjeta[1]] == true) {
-					getTarjetaDrch(0, posTarjeta[1]);
-
-				} else {
-					System.out.println("no encuentro tarjeta");
-					wait();
-					Thread.sleep((long)Math.random()*2000);
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	private synchronized void getTarjetaDrch(int intentos, int posTarjeta) {
-		this.tarjetaDrch = true;
-		o.Tarjetas[posTarjeta] = false;
-		System.out.println("Cojo mi tarjeta de la derecha");
-		if (this.tarjetaIzqd == true) {
-			System.out.println("Persona: "+this.idPersona+": Intento usar el pc");
-			o.usaOrdenador(this);
-		} else {
-			hayTarjetaIzqd();
-		}
-
-	}
-
-	/**
-	 * Método que se ejecuta cuando el usuario deja de usar el ordenador establece
-	 * los valores de sus tarjetas a falso y los de la colección a verdadero,
-	 * realizando así la acción de soltar las tarjetas, para luego ejecutar el
-	 * método piensa()
-	 */
-	public synchronized void sueltaTarjetas() {
-		int[] posTarjetas = buscaTarjetas(this.idPersona);
-		this.tarjetaDrch = false;
-		o.Tarjetas[posTarjetas[0]] = true;
-		this.tarjetaIzqd = false;
-		o.Tarjetas[posTarjetas[1]] = true;
-		System.out.println("La persona " + this.idPersona + " deja de usar el ordenador");
-		notifyAll();
-		piensa();
-	}
-
-	/**
-	 * Método que simula el pensar de la persona, realizando un sleep sobre hilo con
-	 * un tiempo aleatorio de hasta 4000 milisegundos, después vuelve a ejecutar el
-	 * run()
-	 */
-	private void piensa() {
+	public int getIdPersona() {
 		// TODO Auto-generated method stub
-		try {
-			Thread.sleep((long) Math.random() * 4000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// run();
-		System.out.println("Ya termine");
-	}
-
-	/**
-	 * Método utilizado para calcular cual es la posición de la tarjeta izquierda y
-	 * derecha, ya que la persona con id = 4 deberá coger las tajetas 4 y 0,
-	 * mientras que con el resto, la posición de sus respectivas tarjetas se puede
-	 * controlar fácilmente según su id.
-	 * 
-	 * @param idPersona
-	 * @return Devuelve un array de enteros de dos valores, la posición 0 para la
-	 *         tajeta izquierda y la 1 para la derecha
-	 *
-	 */
-	private int[] buscaTarjetas(int idPersona) {
-		int[] posTarjeta = new int[2];
-		if (idPersona != 4) {
-			posTarjeta[0] = idPersona;
-			posTarjeta[1] = idPersona + 1;
-		} else {
-			posTarjeta[0] = idPersona;
-			posTarjeta[1] = 0;
-		}
-		return posTarjeta;
-
+		return this.idPersona;
 	}
 
 	@Override
 	public void run() {
-		hayTarjetaDrch();
+		int contador = 0;
+		piensa();
+		while (this.tarjetaDrch == null || this.tarjetaIzqd == null) {
+			//contador utilizado para controlar que una persona no acapare las tarjetas mucho tiempo
+			if (contador == 2) {
+				sueltaTarjetas();
+				contador = 0;
+			}
+			buscaTarjetaDrch();
+			buscaTarjetaIzqrd();
+			contador++;
+		}
+		o.usaOrdenador(this);
+		sueltaTarjetas();
 	}
 
-	public int getIdPersona() {
-		return this.idPersona;
+	/**
+	 * Método que suleta las tarjetas
+	 * <li>si tiene las tarjetas las suelta</li>
+	 * <li>si no tiene las tarjetas, no las suelta</li>
+	 */
+	private synchronized void sueltaTarjetas() {
+		// TODO Auto-generated method stub
+		
+		int[] posTarjeta = this.getPosicion(this.idPersona);
+		if (this.tarjetaDrch != null) {
+			this.tarjetaDrch = null;
+			o.tarjetas[posTarjeta[1]].p = null;
+			System.out.println("La persona :" + this.getIdPersona() + " suelta las tarjetas dr");
+		}
+		if (this.tarjetaIzqd != null) {
+			this.tarjetaIzqd = null;
+			o.tarjetas[posTarjeta[0]].p = null;
+			System.out.println("La persona :" + this.getIdPersona() + " suelta las tarjetas iz");
+		}
+		notifyAll();
+	}
+
+	/**
+	 * Método usado para simular el pensar de la persona
+	 */
+	private void piensa() {
+		// TODO Auto-generated method stub
+		System.out.println("Persona: " + this.idPersona + " pensando");
+		try {
+			Thread.sleep((int) Math.random() * 1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Método que busca la tarjeta de su derecha
+	 * <li>si no tiene la tarjeta de la derecha la coge</li>
+	 */
+	public void buscaTarjetaDrch() {
+		System.out.println("Persona: " + this.idPersona + " buscando tarjeta derecha");
+		int[] posicionTarjeta = getPosicion(this.idPersona);
+
+		if (this.tarjetaDrch == null) {
+			o.cogeTarjetaDrch(posicionTarjeta[1], this);
+		}
+	}
+
+	/**
+	 * Método que busca la tarjeta de su izquierda
+	 * <li>si no tiene la tarjeta de la izquierda la coge</li>
+	 */
+	public void buscaTarjetaIzqrd() {
+		System.out.println("Persona: " + this.idPersona + " buscando tarjeta izquierda");
+		int[] posicionTarjeta = getPosicion(this.idPersona);
+		if(this.tarjetaIzqd == null) {
+			o.cogeTarjetaIzqrd(posicionTarjeta[0], this);
+		}
+	}
+
+	/**
+	 * Método usado para obtener la posición de la tarjeta en función de la persona
+	 * @param id Identificador de la persona
+	 * @return Array de dos posiciones 
+	 * <li>[0]Usada para guardar la tarjeta de la izquierda</li>
+	 * <li>[1]Usada para guardar la tarjeta de la derecha</li>
+	 */
+	private int[] getPosicion(int id) {
+		int[] posTarjeta = new int[2];
+		if (id != 4) {
+			posTarjeta[0] = id;
+			posTarjeta[1] = id + 1;
+		} else {
+			posTarjeta[0] = id;
+			posTarjeta[1] = 0;
+		}
+		return posTarjeta;
 	}
 }
