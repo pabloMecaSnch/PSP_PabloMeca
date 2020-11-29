@@ -51,7 +51,8 @@ public class Ordenador {
 		}
 	}
 	/**
-	 * Método para usar el ordenador
+	 * Método para usar el ordenador.
+	 * Mientras el ordenador esté siendo utilizado, la siguiente persona que quiera utilizarlo deberá esperar.
 	 * @param p Persona que utiliza el ordenador
 	 */
 	public synchronized void usaOrdenador(Persona p) {
