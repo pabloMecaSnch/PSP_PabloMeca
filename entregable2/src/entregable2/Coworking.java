@@ -20,7 +20,6 @@ public class Coworking {
 			try {
 				personas[i].join();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

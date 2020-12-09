@@ -34,26 +34,28 @@ public class Persona extends Thread {
 	}
 
 	public int getIdPersona() {
-		// TODO Auto-generated method stub
 		return this.idPersona;
 	}
 
 	@Override
 	public void run() {
-		int contador = 0;
-		piensa();
-		while (this.tarjetaDrch == null || this.tarjetaIzqd == null) {
-			//contador utilizado para controlar que una persona no acapare las tarjetas mucho tiempo
-			if (contador == 2) {
-				sueltaTarjetas();
-				contador = 0;
+		for (int i = 0; i < 10; i++) {
+			int contador = 0;
+			piensa();
+			while (this.tarjetaDrch == null || this.tarjetaIzqd == null) {
+				// contador utilizado para controlar que una persona no acapare las tarjetas
+				// mucho tiempo
+				if (contador == 2) {
+					sueltaTarjetas();
+					contador = 0;
+				}
+				buscaTarjetaDrch();
+				buscaTarjetaIzqrd();
+				contador++;
 			}
-			buscaTarjetaDrch();
-			buscaTarjetaIzqrd();
-			contador++;
+			o.usaOrdenador(this);
+			sueltaTarjetas();
 		}
-		o.usaOrdenador(this);
-		sueltaTarjetas();
 	}
 
 	/**
@@ -64,8 +66,7 @@ public class Persona extends Thread {
 	 * </ol>
 	 */
 	private synchronized void sueltaTarjetas() {
-		// TODO Auto-generated method stub
-		
+
 		int[] posTarjeta = this.getPosicion(this.idPersona);
 		if (this.tarjetaDrch != null) {
 			this.tarjetaDrch = null;
@@ -84,12 +85,12 @@ public class Persona extends Thread {
 	 * Método usado para simular el pensar de la persona
 	 */
 	private void piensa() {
-		// TODO Auto-generated method stub
+		
 		System.out.println("Persona: " + this.idPersona + " pensando");
 		try {
 			Thread.sleep((int) Math.random() * 1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	}
@@ -118,19 +119,20 @@ public class Persona extends Thread {
 	public void buscaTarjetaIzqrd() {
 		System.out.println("Persona: " + this.idPersona + " buscando tarjeta izquierda");
 		int[] posicionTarjeta = getPosicion(this.idPersona);
-		if(this.tarjetaIzqd == null) {
+		if (this.tarjetaIzqd == null) {
 			o.cogeTarjetaIzqrd(posicionTarjeta[0], this);
 		}
 	}
 
 	/**
 	 * Método usado para obtener la posición de la tarjeta en función de la persona
+	 * 
 	 * @param id Identificador de la persona
-	 * @return Array de dos posiciones 
-	 * <ol>
-	 * <li>[0]Usada para guardar la tarjeta de la izquierda</li>
-	 * <li>[1]Usada para guardar la tarjeta de la derecha</li>
-	 * </ol>
+	 * @return Array de dos posiciones
+	 *         <ol>
+	 *         <li>[0]Usada para guardar la tarjeta de la izquierda</li>
+	 *         <li>[1]Usada para guardar la tarjeta de la derecha</li>
+	 *         </ol>
 	 */
 	private int[] getPosicion(int id) {
 		int[] posTarjeta = new int[2];

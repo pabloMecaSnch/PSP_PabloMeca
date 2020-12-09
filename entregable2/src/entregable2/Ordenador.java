@@ -16,7 +16,7 @@ public class Ordenador {
 	 * @param p Persona que coge la tarjeta
 	 */
 	public synchronized void cogeTarjetaDrch(int pos,Persona p) {
-		// TODO Auto-generated method stub
+		
 		if (this.tarjetas[pos].p == null) {	
 			p.setTarjetaDrch(this.tarjetas[ pos ]);
 			this.tarjetas[ pos ].p = p;
@@ -25,7 +25,6 @@ public class Ordenador {
 			try {
 				wait(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -36,7 +35,7 @@ public class Ordenador {
 	 * @param p Persona que coge la tarjeta
 	 */
 	public synchronized void cogeTarjetaIzqrd(int pos,Persona p) {
-		// TODO Auto-generated method stub
+		
 		if (this.tarjetas[pos].p == null) {	
 			p.setTarjetaIzqd(this.tarjetas[ pos ]);
 			this.tarjetas[ pos ].p = p;
@@ -45,7 +44,6 @@ public class Ordenador {
 			try {
 				wait(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -60,7 +58,6 @@ public class Ordenador {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -70,7 +67,6 @@ public class Ordenador {
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Termine de usar el pc");
