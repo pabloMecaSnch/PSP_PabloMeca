@@ -41,6 +41,8 @@ public class Mesa {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+			}else {
+				p.sueltaTarjetas();
 			}
 
 		}
@@ -77,6 +79,8 @@ public class Mesa {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+			}else {
+				p.sueltaTarjetas();
 			}
 		}
 	}
