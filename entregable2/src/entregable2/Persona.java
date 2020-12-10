@@ -3,7 +3,7 @@ package entregable2;
 import javax.sql.rowset.spi.SyncResolver;
 
 public class Persona extends Thread {
-	Ordenador o;
+	Mesa o;
 	private int idPersona;
 	private Tarjeta tarjetaIzqd;
 	private Tarjeta tarjetaDrch;
@@ -28,7 +28,7 @@ public class Persona extends Thread {
 		this.idPersona = idPersona;
 	}
 
-	Persona(int id, Ordenador o) {
+	Persona(int id, Mesa o) {
 		this.idPersona = id;
 		this.o = o;
 	}
@@ -37,35 +37,42 @@ public class Persona extends Thread {
 		return this.idPersona;
 	}
 
+	/**
+	 * Cuerpo del hilo.</br>
+	 * Este hilo se ejecuta 10 veces antes de terminar, al inicio de cada ciclo piensa un tiempo aleatorio y luego busca las tarjetas de su lado hasta que consigue ambas</br>
+	 * para luego poder usar el ordenador
+	 * 
+	 */
 	@Override
 	public void run() {
 		for (int i = 0; i < 10; i++) {
-			int contador = 0;
+//			int contador = 0;
 			piensa();
 			while (this.tarjetaDrch == null || this.tarjetaIzqd == null) {
 				// contador utilizado para controlar que una persona no acapare las tarjetas
 				// mucho tiempo
-				if (contador == 2) {
+				/*if (contador == 2) {
 					sueltaTarjetas();
 					contador = 0;
-				}
+				}*/
 				buscaTarjetaDrch();
 				buscaTarjetaIzqrd();
-				contador++;
+//				contador++;
 			}
 			o.usaOrdenador(this);
+//			contador = 0;
 			sueltaTarjetas();
 		}
 	}
 
 	/**
-	 * Método que suleta las tarjetas
+	 * Método que suelta las tarjetas
 	 * <ol>
 	 * <li>si tiene las tarjetas las suelta</li>
 	 * <li>si no tiene las tarjetas, no las suelta</li>
 	 * </ol>
 	 */
-	private synchronized void sueltaTarjetas() {
+	 synchronized void sueltaTarjetas() {
 
 		int[] posTarjeta = this.getPosicion(this.idPersona);
 		if (this.tarjetaDrch != null) {
@@ -101,7 +108,7 @@ public class Persona extends Thread {
 	 * <li>si no tiene la tarjeta de la derecha la coge</li>
 	 * </ol>
 	 */
-	public void buscaTarjetaDrch() {
+	public synchronized void buscaTarjetaDrch() {
 		System.out.println("Persona: " + this.idPersona + " buscando tarjeta derecha");
 		int[] posicionTarjeta = getPosicion(this.idPersona);
 
@@ -116,7 +123,7 @@ public class Persona extends Thread {
 	 * <li>si no tiene la tarjeta de la izquierda la coge</li>
 	 * </ol>
 	 */
-	public void buscaTarjetaIzqrd() {
+	public  synchronized void buscaTarjetaIzqrd() {
 		System.out.println("Persona: " + this.idPersona + " buscando tarjeta izquierda");
 		int[] posicionTarjeta = getPosicion(this.idPersona);
 		if (this.tarjetaIzqd == null) {

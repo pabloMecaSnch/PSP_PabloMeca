@@ -10,7 +10,7 @@ public class Coworking {
 		for (int i = 0; i < tarjetas.length; i++) {
 			tarjetas[i] = new Tarjeta(i);
 		}
-		Ordenador o = new Ordenador(tarjetas);
+		Mesa o = new Mesa(tarjetas);
 		
 		for (int i = 0; i < personas.length; i++) {
 			personas[i] = new Persona(i , o);
