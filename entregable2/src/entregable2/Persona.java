@@ -39,30 +39,40 @@ public class Persona extends Thread {
 
 	/**
 	 * Cuerpo del hilo.</br>
-	 * Este hilo se ejecuta 10 veces antes de terminar, al inicio de cada ciclo piensa un tiempo aleatorio y luego busca las tarjetas de su lado hasta que consigue ambas</br>
+	 * Este hilo se ejecuta 10 veces antes de terminar, al inicio de cada ciclo
+	 * piensa un tiempo aleatorio y luego busca las tarjetas de su lado hasta que
+	 * consigue ambas</br>
 	 * para luego poder usar el ordenador
 	 * 
 	 */
 	@Override
 	public void run() {
 		for (int i = 0; i < 10; i++) {
-//			int contador = 0;
 			piensa();
-			while (this.tarjetaDrch == null || this.tarjetaIzqd == null) {
-				// contador utilizado para controlar que una persona no acapare las tarjetas
-				// mucho tiempo
-				/*if (contador == 2) {
-					sueltaTarjetas();
-					contador = 0;
-				}*/
-				buscaTarjetaDrch();
-				buscaTarjetaIzqrd();
-//				contador++;
-			}
-			o.usaOrdenador(this);
-//			contador = 0;
-			sueltaTarjetas();
+//			while (this.tarjetaDrch == null || this.tarjetaIzqd == null) {
+			pidePermiso();
+//			}
 		}
+	}
+
+	public synchronized void pidePermiso() {
+		while (!o.portero) {
+			try {
+				System.out.println("ss");
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		o.portero = false;
+		buscaTarjetaDrch();
+		buscaTarjetaIzqrd();
+		o.usaOrdenador(this);
+		sueltaTarjetas();
+		o.portero = true;
+		notifyAll();
+		piensa();
 	}
 
 	/**
@@ -72,7 +82,7 @@ public class Persona extends Thread {
 	 * <li>si no tiene las tarjetas, no las suelta</li>
 	 * </ol>
 	 */
-	 synchronized void sueltaTarjetas() {
+	public void sueltaTarjetas() {
 
 		int[] posTarjeta = this.getPosicion(this.idPersona);
 		if (this.tarjetaDrch != null) {
@@ -85,19 +95,18 @@ public class Persona extends Thread {
 			o.tarjetas[posTarjeta[0]].p = null;
 			System.out.println("La persona :" + this.getIdPersona() + " suelta las tarjetas iz");
 		}
-		notifyAll();
 	}
 
 	/**
 	 * Método usado para simular el pensar de la persona
 	 */
 	private void piensa() {
-		
+
 		System.out.println("Persona: " + this.idPersona + " pensando");
 		try {
-			Thread.sleep((int) Math.random() * 1000);
+			Thread.sleep((int) Math.random() * 3000 + 100);
 		} catch (InterruptedException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
@@ -108,7 +117,7 @@ public class Persona extends Thread {
 	 * <li>si no tiene la tarjeta de la derecha la coge</li>
 	 * </ol>
 	 */
-	public synchronized void buscaTarjetaDrch() {
+	public void buscaTarjetaDrch() {
 		System.out.println("Persona: " + this.idPersona + " buscando tarjeta derecha");
 		int[] posicionTarjeta = getPosicion(this.idPersona);
 
@@ -123,7 +132,7 @@ public class Persona extends Thread {
 	 * <li>si no tiene la tarjeta de la izquierda la coge</li>
 	 * </ol>
 	 */
-	public  synchronized void buscaTarjetaIzqrd() {
+	public void buscaTarjetaIzqrd() {
 		System.out.println("Persona: " + this.idPersona + " buscando tarjeta izquierda");
 		int[] posicionTarjeta = getPosicion(this.idPersona);
 		if (this.tarjetaIzqd == null) {
