@@ -29,6 +29,7 @@ public class ProgramaB {
 			while (is.read() > -1) {
 				is.read(message);
 				System.out.println("Mensaje recibido: " + new String(message));
+				
 			}
 
 			System.out.println("Cerrando el nuevo socket");
