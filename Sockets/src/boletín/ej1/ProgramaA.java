@@ -36,6 +36,7 @@ public class ProgramaA {
 			
 			while(br.ready()) {
 				String linea = br.readLine();
+				System.out.println(linea);
 				os.write(linea.getBytes());
 			}
 			System.out.println("Mensaje enviado");
