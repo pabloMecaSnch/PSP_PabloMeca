@@ -41,7 +41,6 @@ public class ProgramaA {
 			}
 			System.out.println("Mensaje enviado");
 			
-			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
