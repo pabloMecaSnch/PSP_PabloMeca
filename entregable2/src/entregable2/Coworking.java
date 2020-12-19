@@ -3,7 +3,6 @@ package entregable2;
 public class Coworking {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Persona[] personas = new Persona[5];
 		Tarjeta[] tarjetas = new Tarjeta[5];
 		

@@ -13,34 +13,36 @@ import java.net.Socket;
 
 public class ProgramaA {
 
-	static String ruta ="C:\\Users\\Usuario\\git\\PSP_PabloMeca\\Sockets\\src\\boletín\\ej1\\ArchivoEmisor";
+	static String ruta = ".\\src\\boletín\\ej1\\ArchivoEmisor";
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+
 		try {
 			File file = new File(ruta);
-			
+
 			FileReader fr;
 			fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
-			
+
 			Socket clienteSocket = new Socket();
 			InetSocketAddress addr = new InetSocketAddress("localhost", 5555);
 
 			clienteSocket.connect(addr);
-			
+
 			InputStream is = clienteSocket.getInputStream();
 			OutputStream os = clienteSocket.getOutputStream();
 			System.out.println("Enviando mensaje");
-			
-			
-			while(br.ready()) {
+
+			while (br.ready()) {
 				String linea = br.readLine();
 				System.out.println(linea);
 				os.write(linea.getBytes());
+				
 			}
+			os.close();
 			System.out.println("Mensaje enviado");
-			
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -48,7 +50,7 @@ public class ProgramaA {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }

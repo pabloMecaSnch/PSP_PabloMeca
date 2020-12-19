@@ -1,38 +1,75 @@
 package entregable2;
 
-import javax.sql.rowset.spi.SyncResolver;
-
 public class Persona extends Thread {
 	Mesa o;
 	private int idPersona;
 	private Tarjeta tarjetaIzqd;
 	private Tarjeta tarjetaDrch;
 
+	public int turno;
+	
+	/**
+	 * Método para ver si la persona tiene en su posesión la tarjeta izquierda.
+	 * 
+	 * @return <ol>
+	 * <li>Objeto Tarjeta</li>
+	 * <li>null</li>
+	 * </ol>
+	 */
 	public Tarjeta getTarjetaIzqd() {
 		return tarjetaIzqd;
 	}
 
+	/**
+	 * Método para modificar el valor de la tarjeta izquierda
+	 * @param tarjetaIzqd Objeto de case Tarjeta
+	 */
 	public void setTarjetaIzqd(Tarjeta tarjetaIzqd) {
 		this.tarjetaIzqd = tarjetaIzqd;
 	}
 
+	/**
+	 * Método para ver si la persona tiene en su posesión la tarjeta derecha.
+	 * 
+	 * @return <ol>
+	 * <li>Objeto Tarjeta</li>
+	 * <li>null</li>
+	 * </ol>
+	 */
 	public Tarjeta getTarjetaDrch() {
 		return tarjetaDrch;
 	}
 
+	/**
+	 * Método para modificar el valor de la tarjeta derecha
+	 * @param tarjetaIzqd Objeto de case Tarjeta
+	 */
 	public void setTarjetaDrch(Tarjeta tarjetaDrch) {
 		this.tarjetaDrch = tarjetaDrch;
 	}
 
+	/**
+	 * Método para modificar el valor del id
+	 * @param tarjetaIzqd id de la persona
+	 */
 	public void setIdPersona(int idPersona) {
 		this.idPersona = idPersona;
 	}
 
-	Persona(int id, Mesa o) {
+	/**
+	 * Método constructor de la clase Persona
+	 * @param id id de la persona
+	 * @param o Objeto de la clase Mesa
+	 */
+	public Persona(int id, Mesa o) {
 		this.idPersona = id;
 		this.o = o;
 	}
 
+	/**
+	 * Método de devuelve el valor del id de la persona
+	 * @return id
+	 */
 	public int getIdPersona() {
 		return this.idPersona;
 	}
@@ -40,39 +77,23 @@ public class Persona extends Thread {
 	/**
 	 * Cuerpo del hilo.</br>
 	 * Este hilo se ejecuta 10 veces antes de terminar, al inicio de cada ciclo
-	 * piensa un tiempo aleatorio y luego busca las tarjetas de su lado hasta que
-	 * consigue ambas</br>
-	 * para luego poder usar el ordenador
+	 * piensa un tiempo aleatorio y luego pide turno para entrar en la mesa, para después pedir permiso
+	 * al portero.</br>
+	 * Después usa el ordenador y suelta las tarjetas.
 	 * 
 	 */
 	@Override
 	public void run() {
 		for (int i = 0; i < 10; i++) {
 			piensa();
-//			while (this.tarjetaDrch == null || this.tarjetaIzqd == null) {
-			pidePermiso();
-//			}
-		}
-	}
 
-	public synchronized void pidePermiso() {
-		while (!o.portero) {
-			try {
-				System.out.println("ss");
-				wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			o.pideTurno(this);
+			o.pidePermiso(this);
+			buscaTarjetaDrch();
+			buscaTarjetaIzqrd();
+			o.usaOrdenador(this);
+			sueltaTarjetas();
 		}
-		o.portero = false;
-		buscaTarjetaDrch();
-		buscaTarjetaIzqrd();
-		o.usaOrdenador(this);
-		sueltaTarjetas();
-		o.portero = true;
-		notifyAll();
-		piensa();
 	}
 
 	/**
@@ -81,8 +102,9 @@ public class Persona extends Thread {
 	 * <li>si tiene las tarjetas las suelta</li>
 	 * <li>si no tiene las tarjetas, no las suelta</li>
 	 * </ol>
+	 * Por último libera al portero
 	 */
-	public void sueltaTarjetas() {
+	public synchronized void sueltaTarjetas() {
 
 		int[] posTarjeta = this.getPosicion(this.idPersona);
 		if (this.tarjetaDrch != null) {
@@ -95,6 +117,9 @@ public class Persona extends Thread {
 			o.tarjetas[posTarjeta[0]].p = null;
 			System.out.println("La persona :" + this.getIdPersona() + " suelta las tarjetas iz");
 		}
+		o.portero = true;
+		notifyAll();
+
 	}
 
 	/**
