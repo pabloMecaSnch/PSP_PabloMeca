@@ -35,18 +35,20 @@ public class ClasePeguntona {
 				Scanner tec = new Scanner(System.in);
 				
 				mensaje = tec.nextLine();
+				System.out.println(mensaje+".");
+				mensaje = " "+mensaje;
 				os.write(mensaje.getBytes());
 
 				System.out.println("Mensaje enviado");
 
+//				try {
+//					Thread.sleep(100);
+//
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
 				try {
-					Thread.sleep(100);
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				try {
-					is.read(buffer);
+					int z = is.read(buffer);
 					System.out.println(new String(buffer));
 				} catch (Exception e) {
 					e.printStackTrace();

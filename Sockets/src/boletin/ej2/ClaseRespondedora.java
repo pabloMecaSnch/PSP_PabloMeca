@@ -33,8 +33,10 @@ public class ClaseRespondedora {
 			byte[] message = new byte[35];
 			String pregunta = "";
 			while (!salida) {
-				if (is.read(message) > -1) {
+//				if (is.read(message) > -1) {
+					int z = is.read(message);
 					String linea = new String(message);
+					System.out.println(linea.length()+"."+z);
 					for (int i = 0; i < linea.length(); i++) {
 //						String v = " ";
 //						os.write(v.getBytes());
@@ -72,7 +74,9 @@ public class ClaseRespondedora {
 						}
 					}
 					os.write(0);
-				}
+//				}else {
+//					salida = true;
+//				}
 
 			}
 			System.out.println("Cerrando el nuevo socket");
