@@ -1,5 +1,8 @@
 package boletin.ej2;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -9,8 +12,11 @@ import java.net.Socket;
 
 public class ClaseRespondedora {
 
+	static String ruta = ".\\src\\boletín\\ej2\\ClaseRespondedora";
+
 	public static void main(String[] args) {
 		boolean salida = false;
+
 		try {
 			System.out.println("Creando socket servidor");
 			ServerSocket server = new ServerSocket();
@@ -29,27 +35,43 @@ public class ClaseRespondedora {
 			while (!salida) {
 				if (is.read(message) > -1) {
 					String linea = new String(message);
-					for (int i = 0 ; i < linea.length(); i++) {
+					for (int i = 0; i < linea.length(); i++) {
+//						String v = " ";
+//						os.write(v.getBytes());
 						if (linea.charAt(i) == '?') {
+
 							System.out.println("Pregunta finalizada");
 							System.out.println(pregunta);
-							salida = true;
 							i = linea.length();
-							switch (pregunta) {
-							case "hola":
-								String vuelta = "Buenas tardes";
+							String vuelta;
+							String preguntaBuena = pregunta.trim();
+							os.flush();
+							switch (preguntaBuena) {
+							case "¿Cómo te llamas":
+								vuelta = "Me llamo Ejercicio 2".trim();
 								os.write(vuelta.getBytes());
 								break;
-
+							case "¿Cuántas líneas de código tienes":
+								vuelta = "pfff muchas no se";
+								os.write(vuelta.getBytes());
+								break;
 							default:
-								throw new IllegalArgumentException("Unexpected value: " + pregunta);
+								System.out.println(preguntaBuena+".");
+								vuelta = "No entendi";
+								os.write(vuelta.getBytes());
+								
 							}
+							pregunta = "";
 						} else {
-							pregunta = pregunta.concat(linea.charAt(i)+"");
-							System.out.println(pregunta);
+							if (pregunta.trim().equalsIgnoreCase("salir")) {
+								salida = true;
+							} else {
+								pregunta = pregunta.concat(linea.charAt(i) + "");
+								System.out.println(pregunta);
+							}
 						}
 					}
-					
+					os.write(0);
 				}
 
 			}
