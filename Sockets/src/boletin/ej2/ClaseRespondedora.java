@@ -37,7 +37,7 @@ public class ClaseRespondedora {
 							i = linea.length();
 							switch (pregunta) {
 							case "hola":
-								String vuelta = "que buenas tardes";
+								String vuelta = "Buenas tardes";
 								os.write(vuelta.getBytes());
 								break;
 
@@ -51,8 +51,6 @@ public class ClaseRespondedora {
 					}
 					
 				}
-				String vacio="";
-				os.write(vacio.getBytes());
 
 			}
 			System.out.println("Cerrando el nuevo socket");
