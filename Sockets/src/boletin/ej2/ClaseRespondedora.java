@@ -14,7 +14,6 @@ public class ClaseRespondedora {
 		try {
 			System.out.println("Creando socket servidor");
 			ServerSocket server = new ServerSocket();
-
 			System.out.println("Realizando blind");
 			InetSocketAddress addr = new InetSocketAddress("localhost", 5555);
 			server.bind(addr);
@@ -52,6 +51,8 @@ public class ClaseRespondedora {
 					}
 					
 				}
+				String vacio="";
+				os.write(vacio.getBytes());
 
 			}
 			System.out.println("Cerrando el nuevo socket");

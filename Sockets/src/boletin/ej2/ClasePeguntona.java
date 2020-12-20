@@ -1,6 +1,5 @@
 package boletin.ej2;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,22 +24,31 @@ public class ClasePeguntona {
 			OutputStream os = clienteSocket.getOutputStream();
 			System.out.println("Enviando mensaje");
 			byte[] buffer = new byte[35];
-			
+
 			String mensaje = "";
 			System.out.println(mensaje);
 			while (true) {
-				if(is.available()>-1) {
-					is.read(buffer);
-					System.out.println(new String(buffer));
-				}
 				Scanner tec = new Scanner(System.in);
 				mensaje = tec.nextLine();
 				os.write(mensaje.getBytes());
-				
+
 				System.out.println("Mensaje enviado");
-				if(is.available()>-1) {
-					System.out.println(new String(buffer));
+
+				try {
+					Thread.sleep(1000);
+
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
+				try {
+					if(is.read(buffer)>-1) {
+						System.out.println(new String(buffer));
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+
 			}
 
 		} catch (IOException e) {
