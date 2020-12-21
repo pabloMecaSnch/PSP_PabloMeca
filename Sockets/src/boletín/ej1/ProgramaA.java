@@ -16,7 +16,6 @@ public class ProgramaA {
 	static String ruta = ".\\src\\boletín\\ej1\\ArchivoEmisor";
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		try {
 			File file = new File(ruta);
@@ -44,10 +43,8 @@ public class ProgramaA {
 			System.out.println("Mensaje enviado");
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

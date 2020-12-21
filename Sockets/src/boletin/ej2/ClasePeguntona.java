@@ -27,18 +27,19 @@ public class ClasePeguntona {
 			//BufferedReader in = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
 			
 			System.out.println("Enviando mensaje");
-			byte[] buffer = new byte[40];
+			byte[] buffer;
 
 			String mensaje = "";
 			System.out.println(mensaje);
 			while (true) {
 				Scanner tec = new Scanner(System.in);
-				
+				buffer = new byte[40];
 				mensaje = tec.nextLine();
 				System.out.println(mensaje+".");
+				System.out.println(new String(buffer));
 				mensaje = " "+mensaje;
 				os.write(mensaje.getBytes());
-
+				//os.flush();
 				System.out.println("Mensaje enviado");
 
 //				try {
