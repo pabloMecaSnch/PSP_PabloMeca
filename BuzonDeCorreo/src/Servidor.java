@@ -1,0 +1,40 @@
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class Servidor {
+
+	public static void main(String[] args) {
+		boolean exec = true;
+		try {
+			System.out.println("Creando socket servidor");
+			ServerSocket server = new ServerSocket();
+
+			System.out.println("Realizando blind");
+			InetSocketAddress addr = new InetSocketAddress("localhost", 5555);
+			server.bind(addr);
+			// Socket newSocket = server.accept();
+			while (exec) {
+				System.out.println("Aceptando conexiones");
+				Conexion c = new Conexion(server.accept());
+				c.start();
+				System.out.println("Conexión recibida");
+				// System.out.println("Cerrando el nuevo socket");
+				// newSocket.close();
+
+			}
+			server.close();
+			System.out.println("Cerrando el socket servidor");
+
+			System.out.println("Terminado");
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+}
