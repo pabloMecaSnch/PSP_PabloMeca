@@ -1,3 +1,5 @@
+package cliente;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -15,7 +17,7 @@ public class Cliente {
 			InetSocketAddress addr = new InetSocketAddress("localhost", 5555);
 			Scanner entrada = new Scanner(System.in);
 			String mensaje;
-			
+
 			clienteSocket.connect(addr);
 			byte[] buffer = new byte[30];
 			InputStream is = clienteSocket.getInputStream();
@@ -24,19 +26,19 @@ public class Cliente {
 			// InputStreamReader(clienteSocket.getInputStream()));
 			is.read(buffer);
 			System.out.println(new String(buffer));
+			buffer = new byte[80];
+			
 			while (!fin) {
-				
-				
-				buffer = new byte[30];
-				//entrada = new Scanner(System.in);
+				// entrada = new Scanner(System.in);
 				mensaje = entrada.nextLine();
 				os.write(mensaje.getBytes());
-
-				is.read(buffer);
-				String respuesta = new String(buffer);
-				System.out.println(new String(buffer));
-				if(respuesta.trim().equals("Adiós.")) {
-					fin = true;
+				while (is.read(buffer) != -1) {
+					String respuesta = new String(buffer);
+					System.out.println(new String(buffer));
+					if (respuesta.trim().equals("Adiós.")) {
+						fin = true;
+					}
+					buffer = new byte[80];
 				}
 			}
 			System.out.println("Conexion finalizada");
