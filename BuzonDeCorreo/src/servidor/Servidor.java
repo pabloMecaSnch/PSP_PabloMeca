@@ -6,10 +6,13 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import buzon.Buzon;
+
 public class Servidor {
 
 	public static void main(String[] args) {
 		boolean exec = true;
+		Buzon b = new Buzon();
 		try {
 			System.out.println("Creando socket servidor");
 			ServerSocket server = new ServerSocket();

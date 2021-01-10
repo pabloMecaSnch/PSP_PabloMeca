@@ -6,4 +6,17 @@ public class Buzon {
 
 	static public ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
 	
+	
+	public static Mensaje buscaMensaje(String detinatario) {
+		
+		for(Mensaje m : mensajes) {
+			if(m.getPara().equals(detinatario)) {
+				return m;
+			}
+		}
+		return null;
+	}
+	public static void anadirMensaje(Mensaje m) {
+		mensajes.add(m);
+	}
 }

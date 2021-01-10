@@ -15,7 +15,8 @@ public class Conexion extends Thread {
 	private OutputStream output;
 	private byte[] buffer;
 	private String usuario;
-	private final int _TAM_BUFFER=80;
+	private final int _TAM_BUFFER = 80;
+	private boolean salida = false;
 
 	public Conexion(Socket soket) {
 		this.socket = soket;
@@ -34,12 +35,20 @@ public class Conexion extends Thread {
 			output.write(new String("Log in:").getBytes());
 			input.read(this.buffer);
 			this.usuario = new String(this.buffer);
-			output.write(new String("Bienvenido " + this.usuario).getBytes());
+			output.write(new String("Bienvenido " + this.usuario + "\n").getBytes());
 			printOpciones();
+			this.buffer = new byte[1];
+			while (!salida) {
+				output.flush();
+				input.read(this.buffer);
+				gestionMensaje(new String(this.buffer));
+				this.buffer = new byte[1];
+				printOpciones();
+			}
 			// output.write(new String("Bienvenido "+this.usuario).getBytes());
 			// input.read(this.buffer);
 
-			socket.close();
+			// socket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,51 +59,52 @@ public class Conexion extends Thread {
 	}
 
 	private void comprobarCorreo() {
-		boolean enc = false;
-		for (Mensaje m : Buzon.mensajes) {
-			if (m.getPara().equals(this.usuario) && enc==false) {
-				leerMensaje(m);
-				enc = true;
+		Mensaje m = Buzon.buscaMensaje(usuario);
+		if (m != null) {
+			leerMensaje(m);
+		} else {
+			try {
+				output.write(new String("No hay correos por leer").getBytes());
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
-		if(!enc) {
-		try {
-			output.write(new String("Correos no encontrados").getBytes());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		}
-		
 	}
 
 	private void leerMensaje(Mensaje m) {
 		String contenido = m.getMensaje();
-		if(contenido.length()>_TAM_BUFFER) {
+		if (contenido.length() > _TAM_BUFFER) {
 			try {
 				output.write(new String(contenido.substring(1, _TAM_BUFFER)).trim().getBytes());
-				output.write(new String(contenido.substring(80, _TAM_BUFFER*2)).trim().getBytes());
+				output.write(new String(contenido.substring(_TAM_BUFFER, _TAM_BUFFER * 2)).trim().getBytes());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
-		String linea = contenido.substring(1, 80);
-		
 	}
+
 	private void gestionMensaje(String mensaje) {
 		try {
 			int opcion = Integer.parseInt(mensaje);
 			switch (opcion) {
 			case 1:
 				// Comprobar correo
+				comprobarCorreo();
 				break;
 			case 2:
-				// escribir correo
+				// Escribir correo
+				escribirCorreo(usuario);
 				break;
 			case 3:
 				// Salir
+				try {
+					output.write(new String("Adiós.").getBytes());
+					this.salida = true;
+					socket.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
 			default:
 				output.write(new String("Opción no contemplada").getBytes());
@@ -111,9 +121,36 @@ public class Conexion extends Thread {
 		}
 	}
 
+	private void escribirCorreo(String usuario) {
+		String destinataio;
+		String mensaje;
+		int tamBuffer;
+		try {
+			this.buffer = new byte[_TAM_BUFFER];
+			output.write(new String("Destinatario:").getBytes());
+			input.read(this.buffer);
+			destinataio = new String(this.buffer);
+			output.write(new String("Mensaje:").getBytes());
+
+			while ((tamBuffer = input.available()) == 0) {
+				//espera a que haya un mensaje que leer
+			}
+			buffer = new byte[tamBuffer];
+			// System.out.println(is.read(buffer));
+			input.read(this.buffer);
+
+			this.buffer = new byte[input.available()];
+			input.read(this.buffer);
+			mensaje = new String(this.buffer);
+			Buzon.anadirMensaje(new Mensaje(this.usuario, destinataio, mensaje));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void printOpciones() {
 		try {
-			output.write(new String("1) Comprobar correo\n").getBytes());
+			output.write(new String("\n1) Comprobar correo\n").getBytes());
 			output.write(new String("2) Escribir correo\n").getBytes());
 			output.write(new String("3) Salir\n").getBytes());
 		} catch (IOException e) {
