@@ -42,6 +42,10 @@ public class Mensaje {
 				&& this.mensaje.equals(((Mensaje)o).mensaje);
 		
 	}
+	@Override
+	public String toString() {
+		return this.de;
+	}
 	
 	
 }

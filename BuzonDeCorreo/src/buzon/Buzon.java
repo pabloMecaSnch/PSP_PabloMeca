@@ -10,7 +10,7 @@ public class Buzon {
 	public static Mensaje buscaMensaje(String detinatario) {
 		
 		for(Mensaje m : mensajes) {
-			if(m.getPara().equals(detinatario)) {
+			if(m.getPara().equals(detinatario.trim())) {
 				return m;
 			}
 		}

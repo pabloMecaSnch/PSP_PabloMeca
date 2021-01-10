@@ -143,6 +143,7 @@ public class Conexion extends Thread {
 			input.read(this.buffer);
 			mensaje = new String(this.buffer);
 			Buzon.anadirMensaje(new Mensaje(this.usuario, destinataio, mensaje));
+			output.write(new String(Buzon.mensajes.get(0).toString()).getBytes());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
