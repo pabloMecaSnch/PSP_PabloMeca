@@ -19,4 +19,7 @@ public class Buzon {
 	public static void anadirMensaje(Mensaje m) {
 		mensajes.add(m);
 	}
+	public static void borrarMensaje(Mensaje m) {
+		mensajes.remove(m);
+	}
 }

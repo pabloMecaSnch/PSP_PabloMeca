@@ -11,7 +11,7 @@ public class Mensaje {
 		
 	}
 	
-	public Mensaje(String de, String para, String Mensaje) {
+	public Mensaje(String de, String para, String mensaje) {
 		this.de = de;
 		this.para = para;
 		this.mensaje = mensaje;
@@ -30,7 +30,7 @@ public class Mensaje {
 		this.para = para;
 	}
 	public String getMensaje() {
-		return mensaje;
+		return this.mensaje;
 	}
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
@@ -44,7 +44,7 @@ public class Mensaje {
 	}
 	@Override
 	public String toString() {
-		return this.de;
+		return this.mensaje;
 	}
 	
 	

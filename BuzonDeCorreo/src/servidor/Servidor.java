@@ -20,14 +20,12 @@ public class Servidor {
 			System.out.println("Realizando blind");
 			InetSocketAddress addr = new InetSocketAddress("localhost", 5555);
 			server.bind(addr);
-			// Socket newSocket = server.accept();
 			while (exec) {
+				
 				System.out.println("Aceptando conexiones");
 				Conexion c = new Conexion(server.accept());
 				c.start();
 				System.out.println("Conexión recibida");
-				// System.out.println("Cerrando el nuevo socket");
-				// newSocket.close();
 
 			}
 			server.close();

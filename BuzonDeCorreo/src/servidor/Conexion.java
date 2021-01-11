@@ -31,30 +31,26 @@ public class Conexion extends Thread {
 
 	public void run() {
 		try {
-			Thread.sleep(100);
+//			Thread.sleep(100);
 			output.write(new String("Log in:").getBytes());
 			input.read(this.buffer);
 			this.usuario = new String(this.buffer);
 			output.write(new String("Bienvenido " + this.usuario + "\n").getBytes());
-			printOpciones();
 			this.buffer = new byte[1];
 			while (!salida) {
+
+				printOpciones();
 				output.flush();
 				input.read(this.buffer);
 				gestionMensaje(new String(this.buffer));
 				this.buffer = new byte[1];
-				printOpciones();
-			}
-			// output.write(new String("Bienvenido "+this.usuario).getBytes());
-			// input.read(this.buffer);
 
-			// socket.close();
+			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (InterruptedException e) {
+		}/* catch (InterruptedException e) {
 			e.printStackTrace();
-		}
+		}*/
 
 	}
 
@@ -62,6 +58,7 @@ public class Conexion extends Thread {
 		Mensaje m = Buzon.buscaMensaje(usuario);
 		if (m != null) {
 			leerMensaje(m);
+			Buzon.borrarMensaje(m);
 		} else {
 			try {
 				output.write(new String("No hay correos por leer").getBytes());
@@ -72,15 +69,12 @@ public class Conexion extends Thread {
 	}
 
 	private void leerMensaje(Mensaje m) {
-		String contenido = m.getMensaje();
-		if (contenido.length() > _TAM_BUFFER) {
-			try {
-				output.write(new String(contenido.substring(1, _TAM_BUFFER)).trim().getBytes());
-				output.write(new String(contenido.substring(_TAM_BUFFER, _TAM_BUFFER * 2)).trim().getBytes());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
+		String contenido = "";
+		contenido = "Mensaje de : " + m.getDe() + "\n" + m.getMensaje();
+		try {
+			output.write(contenido.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -105,6 +99,7 @@ public class Conexion extends Thread {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				break;
 
 			default:
 				output.write(new String("Opción no contemplada").getBytes());
@@ -116,34 +111,28 @@ public class Conexion extends Thread {
 
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	private void escribirCorreo(String usuario) {
-		String destinataio;
-		String mensaje;
-		int tamBuffer;
+		String destinataio = "";
+		String mensaje = "";
+		int tamBuffer = 0;
 		try {
 			this.buffer = new byte[_TAM_BUFFER];
 			output.write(new String("Destinatario:").getBytes());
 			input.read(this.buffer);
-			destinataio = new String(this.buffer);
+			destinataio = new String(this.buffer).trim();
 			output.write(new String("Mensaje:").getBytes());
 
 			while ((tamBuffer = input.available()) == 0) {
-				//espera a que haya un mensaje que leer
+				// espera a que haya un mensaje que leer
 			}
 			buffer = new byte[tamBuffer];
-			// System.out.println(is.read(buffer));
 			input.read(this.buffer);
-
-			this.buffer = new byte[input.available()];
-			input.read(this.buffer);
-			mensaje = new String(this.buffer);
+			mensaje = new String(this.buffer).trim();
 			Buzon.anadirMensaje(new Mensaje(this.usuario, destinataio, mensaje));
-			output.write(new String(Buzon.mensajes.get(0).toString()).getBytes());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
