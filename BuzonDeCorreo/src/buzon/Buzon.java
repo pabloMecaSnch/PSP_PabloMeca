@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Buzon {
 
-	static public ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
+	private static  ArrayList<Mensaje> mensajes = new ArrayList<Mensaje>();
 	
 	
 	public static Mensaje buscaMensaje(String detinatario) {
@@ -14,6 +14,7 @@ public class Buzon {
 				return m;
 			}
 		}
+		//devolver array de mensajes
 		return null;
 	}
 	public static void anadirMensaje(Mensaje m) {

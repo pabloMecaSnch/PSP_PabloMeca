@@ -15,7 +15,6 @@ public class Conexion extends Thread {
 	private OutputStream output;
 	private byte[] buffer;
 	private String usuario;
-	private final int _TAM_BUFFER = 80;
 	private boolean salida = false;
 
 	public Conexion(Socket soket) {
@@ -36,6 +35,8 @@ public class Conexion extends Thread {
 			input.read(this.buffer);
 			this.usuario = new String(this.buffer);
 			output.write(new String("Bienvenido " + this.usuario + "\n").getBytes());
+			//El tamaño del buffer es 1 porque el usuario eligirá entre 3 opciones
+			//introduciendo un número, entonces no es necesario un buffer de mayor tamaño
 			this.buffer = new byte[1];
 			while (!salida) {
 
@@ -120,8 +121,12 @@ public class Conexion extends Thread {
 		String mensaje = "";
 		int tamBuffer = 0;
 		try {
-			this.buffer = new byte[_TAM_BUFFER];
+			//this.buffer = new byte[_TAM_BUFFER];
 			output.write(new String("Destinatario:").getBytes());
+			while ((tamBuffer = input.available()) == 0) {
+				// espera a que haya un mensaje que leer
+			}
+			this.buffer = new byte[tamBuffer];
 			input.read(this.buffer);
 			destinataio = new String(this.buffer).trim();
 			output.write(new String("Mensaje:").getBytes());
@@ -133,6 +138,7 @@ public class Conexion extends Thread {
 			input.read(this.buffer);
 			mensaje = new String(this.buffer).trim();
 			Buzon.anadirMensaje(new Mensaje(this.usuario, destinataio, mensaje));
+			output.write(new String("Mensaje enviado").getBytes());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
