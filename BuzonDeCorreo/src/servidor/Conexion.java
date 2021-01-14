@@ -17,9 +17,11 @@ public class Conexion extends Thread {
 	private byte[] buffer;
 	private String usuario;
 	private boolean salida = false;
+	private ArrayList<Mensaje> mensajes;
 
 	public Conexion(Socket soket) {
 		this.socket = soket;
+		this.mensajes = new ArrayList<Mensaje>();
 		try {
 			this.input = socket.getInputStream();
 			this.output = socket.getOutputStream();
@@ -57,9 +59,9 @@ public class Conexion extends Thread {
 	}
 
 	private void comprobarCorreo() {
-		ArrayList<Mensaje> m = Buzon.buscaMensaje(usuario);
-		if (!m.isEmpty()) {
-			gestionMensajes(m);
+		this.mensajes = Buzon.buscaMensaje(usuario);
+		if (!mensajes.isEmpty()) {
+			gestionMensajes(mensajes);
 		} else {
 			try {
 				output.write(new String("No hay correos por leer").getBytes());
@@ -71,43 +73,52 @@ public class Conexion extends Thread {
 
 	private void gestionMensajes(ArrayList<Mensaje> m) {
 
-		for (int i = 0; i < m.size(); i++) {
-			Mensaje mens = m.get(i);
+		while(!m.isEmpty()) {
+			Mensaje mens = m.get(0);
 			try {
-				output.write(new String("\nQuedan: " + m.size() + " mensajes por leer" + i).getBytes());
+				output.write(new String("\nQuedan: " + m.size() + " mensajes por leer").getBytes());
 				printOpcionesMensaje();
 				this.buffer = new byte[1];
 				input.read(this.buffer);
-
-				int opcion = Integer.parseInt(new String(this.buffer));
-				switch (opcion) {
-				case 1:
-					leerMensaje(mens);
-					Buzon.borrarMensaje(mens);
-					m.remove(mens);
-					break;
-
-				default:
-					output.write(new String("Opción no válida").getBytes());
-					i--;
-					break;
-				}
+				gestOpcionMensaje(new String(this.buffer), mens);
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
 				try {
-					output.write(new String("illooooo fallo" + i).getBytes());
+					output.write(new String("opción no válida").getBytes());
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+		try {
+			output.write(new String("\nYa no hay más mensajes").getBytes());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 
-	private void gestOpcionMensaje(String mensaje) {
+	private void gestOpcionMensaje(String mensaje, Mensaje mens) {
+		try {
+		int opcion = Integer.parseInt(new String(this.buffer));
 
+		switch (opcion) {
+		case 1:
+			leerMensaje(mens);
+			Buzon.borrarMensaje(mens);
+			this.mensajes.remove(mens);
+			break;
+
+		default:
+			output.write(new String("\nOpción no válida").getBytes());
+			break;
+		}
+		}catch(IOException e) {
+			e.printStackTrace();
+		}catch(NumberFormatException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void printOpcionesMensaje() {
@@ -171,7 +182,6 @@ public class Conexion extends Thread {
 		String mensaje = "";
 		int tamBuffer = 0;
 		try {
-			// this.buffer = new byte[_TAM_BUFFER];
 			output.write(new String("Destinatario:").getBytes());
 			while ((tamBuffer = input.available()) == 0) {
 				// espera a que haya un mensaje que leer
@@ -200,7 +210,6 @@ public class Conexion extends Thread {
 			output.write(new String("2) Escribir correo\n").getBytes());
 			output.write(new String("3) Salir\n").getBytes());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
