@@ -34,7 +34,6 @@ public class Servidor {
 			System.out.println("Terminado");
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -34,6 +34,7 @@ public class Cliente {
 				mensaje = entrada.nextLine();
 				os.write(mensaje.getBytes());
 				int tamBuffer = 0;
+				//cambio el tamaño del buffer según el tamaño del mensaje mediante el metodo available del InputStream
 				while ((tamBuffer =is.available())>0) {
 					buffer = new byte[tamBuffer];
 					is.read(buffer);

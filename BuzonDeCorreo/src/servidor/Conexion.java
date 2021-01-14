@@ -19,6 +19,14 @@ public class Conexion extends Thread {
 	private boolean salida = false;
 	private ArrayList<Mensaje> mensajes;
 
+	/**
+	 * Método constructor de la clase. En este recojo por parámetro el socket del
+	 * cliente para realizar la conexión e inicializo el array de mensajes del
+	 * cliente al igual que el buffer, que inicializo con un tamaño de 15, ya que lo
+	 * primero que pido es el nombre de usuario
+	 * 
+	 * @param soket El socket del cliente que realice la petición al servidor
+	 */
 	public Conexion(Socket soket) {
 		this.socket = soket;
 		this.mensajes = new ArrayList<Mensaje>();
@@ -31,9 +39,12 @@ public class Conexion extends Thread {
 		this.buffer = new byte[15];
 	}
 
+	/**
+	 * La ejecución del hilo, en la que primero pide el usuario y después entra un
+	 * bucle en el que gestiona las peticiones del cliente
+	 */
 	public void run() {
 		try {
-//			Thread.sleep(100);
 			output.write(new String("Log in:").getBytes());
 			input.read(this.buffer);
 			this.usuario = new String(this.buffer);
@@ -44,7 +55,6 @@ public class Conexion extends Thread {
 			while (!salida) {
 
 				printOpciones();
-				output.flush();
 				input.read(this.buffer);
 				gestionOpcion(new String(this.buffer));
 				this.buffer = new byte[1];
@@ -52,12 +62,15 @@ public class Conexion extends Thread {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		} /*
-			 * catch (InterruptedException e) { e.printStackTrace(); }
-			 */
-
+		}
 	}
 
+	/**
+	 * Método que realiza la petición al buzón y recoge los mensajes del clientes,
+	 * que se guardan en la variable: mensajes. Si el array de mensajes no está
+	 * vacío, inicia el método utilizado para leer estos mensajes.
+	 * 
+	 */
 	private void comprobarCorreo() {
 		this.mensajes = Buzon.buscaMensaje(usuario);
 		if (!mensajes.isEmpty()) {
@@ -71,9 +84,14 @@ public class Conexion extends Thread {
 		}
 	}
 
+	/**
+	 * Método que se encarga de recorrer la lista de mensajes disponibles.
+	 * 
+	 * @param m La lista de mensajes que tiene el cliente disponible para leer
+	 */
 	private void gestionMensajes(ArrayList<Mensaje> m) {
 
-		while(!m.isEmpty()) {
+		while (!m.isEmpty()) {
 			Mensaje mens = m.get(0);
 			try {
 				output.write(new String("\nQuedan: " + m.size() + " mensajes por leer").getBytes());
@@ -98,29 +116,39 @@ public class Conexion extends Thread {
 		}
 	}
 
+	/**
+	 * Método utilizado para gestionar las posibles opciones que el cliente tiene
+	 * para usar frente a un mensaje.
+	 * 
+	 * @param mensaje El texto que el cliente a introducido definiendo su opción
+	 * @param mens    El mensaje que recibirá la acción seleccionada por el cliente
+	 */
 	private void gestOpcionMensaje(String mensaje, Mensaje mens) {
 		try {
-		int opcion = Integer.parseInt(new String(this.buffer));
+			int opcion = Integer.parseInt(new String(this.buffer));
 
-		switch (opcion) {
-		case 1:
-			leerMensaje(mens);
-			Buzon.borrarMensaje(mens);
-			this.mensajes.remove(mens);
-			break;
+			switch (opcion) {
+			case 1:
+				leerMensaje(mens);
+				Buzon.borrarMensaje(mens);
+				this.mensajes.remove(mens);
+				break;
 
-		default:
-			output.write(new String("\nOpción no válida").getBytes());
-			break;
-		}
-		}catch(IOException e) {
+			default:
+				output.write(new String("\nOpción no válida").getBytes());
+				break;
+			}
+		} catch (IOException e) {
 			e.printStackTrace();
-		}catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
+	/**
+	 * Método que le muestra al cliente las opciones posibles frente a un mensaje
+	 */
 	private void printOpcionesMensaje() {
 		try {
 			output.write(new String("\n1)leer mensaje").getBytes());
@@ -130,6 +158,11 @@ public class Conexion extends Thread {
 
 	}
 
+	/**
+	 * Método encargado de mostrar al cliente el contenido de un mensaje
+	 * 
+	 * @param m Mensaje que se leerá
+	 */
 	private void leerMensaje(Mensaje m) {
 		String contenido = "";
 		contenido = "Mensaje de : " + m.getDe() + "\n" + m.getMensaje();
@@ -140,6 +173,22 @@ public class Conexion extends Thread {
 		}
 	}
 
+	/**
+	 * Método utilizado para gestionar las diferentes opciones que el cliente tiene
+	 * al loggear
+	 * <ul>
+	 * <li>1: Comprobar correo</li>
+	 * <li>2: Escribir correo</li>
+	 * <li>3: Salir</li>
+	 * <li>default: mandará un mensaje al cliente indicando que no entiende su
+	 * respuesta</li>
+	 * </ul>
+	 * 
+	 * @param mensaje El mensaje que el cliente a introducido para feinir la opción
+	 *                deseada
+	 * 
+	 * 
+	 */
 	private void gestionOpcion(String mensaje) {
 		try {
 			int opcion = Integer.parseInt(mensaje);
@@ -150,7 +199,7 @@ public class Conexion extends Thread {
 				break;
 			case 2:
 				// Escribir correo
-				escribirCorreo(usuario);
+				escribirCorreo();
 				break;
 			case 3:
 				// Salir
@@ -177,7 +226,10 @@ public class Conexion extends Thread {
 		}
 	}
 
-	private void escribirCorreo(String usuario) {
+	/**
+	 * Método que sirve para gestionar la escitura de un mensaje.
+	 */
+	private void escribirCorreo() {
 		String destinataio = "";
 		String mensaje = "";
 		int tamBuffer = 0;
@@ -203,7 +255,9 @@ public class Conexion extends Thread {
 			e.printStackTrace();
 		}
 	}
-
+/**
+ * Método que muestra la cliente las opciones que tiene una vez a loggeado
+ */
 	private void printOpciones() {
 		try {
 			output.write(new String("\n1) Comprobar correo\n").getBytes());
