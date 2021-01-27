@@ -1,10 +1,10 @@
-package com.pspWeb.pspWeb;
+package com.pspro.webservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PspWebApplicationTests {
+class PsproApplicationTests {
 
 	@Test
 	void contextLoads() {
