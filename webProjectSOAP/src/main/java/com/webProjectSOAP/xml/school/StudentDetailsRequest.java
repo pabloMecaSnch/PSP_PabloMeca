@@ -2,11 +2,11 @@
 // Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.2.7 
 // Visite <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
-// Generado el: 2021.02.02 a las 02:34:35 PM CET 
+// Generado el: 2021.01.25 a las 09:18:31 AM CET 
 //
 
 
-package com.pspro.xml.school;
+package com.webProjectSOAP.xml.school;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="address" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,36 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "address"
+    "name"
 })
-@XmlRootElement(name = "StudentAddressResponse")
-public class StudentAddressResponse {
+@XmlRootElement(name = "StudentDetailsRequest")
+public class StudentDetailsRequest {
 
     @XmlElement(required = true)
-    protected String address;
+    protected String name;
 
     /**
-     * Obtiene el valor de la propiedad address.
+     * Obtiene el valor de la propiedad name.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getAddress() {
-        return address;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Define el valor de la propiedad address.
+     * Define el valor de la propiedad name.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setAddress(String value) {
-        this.address = value;
+    public void setName(String value) {
+        this.name = value;
     }
 
 }

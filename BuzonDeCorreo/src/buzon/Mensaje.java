@@ -1,5 +1,9 @@
 package buzon;
-
+/**
+ * 
+ * @author usuario
+ *
+ */
 public class Mensaje {
 
 	private String de;

@@ -2,11 +2,11 @@
 // Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.2.7 
 // Visite <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
-// Generado el: 2021.02.02 a las 02:34:35 PM CET 
+// Generado el: 2021.02.03 a las 02:38:30 PM CET 
 //
 
 
-package com.pspro.xml.school;
+package com.entregableweb.xml.moviles;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="address" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="marca" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,36 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "address"
+    "marca"
 })
-@XmlRootElement(name = "StudentAddressResponse")
-public class StudentAddressResponse {
+@XmlRootElement(name = "MovilBrandResponse")
+public class MovilBrandResponse {
 
     @XmlElement(required = true)
-    protected String address;
+    protected String marca;
 
     /**
-     * Obtiene el valor de la propiedad address.
+     * Obtiene el valor de la propiedad marca.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getAddress() {
-        return address;
+    public String getMarca() {
+        return marca;
     }
 
     /**
-     * Define el valor de la propiedad address.
+     * Define el valor de la propiedad marca.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setAddress(String value) {
-        this.address = value;
+    public void setMarca(String value) {
+        this.marca = value;
     }
 
 }
