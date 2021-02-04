@@ -2,11 +2,11 @@
 // Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.2.7 
 // Visite <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
-// Generado el: 2021.02.04 a las 04:21:07 PM CET 
+// Generado el: 2021.02.04 a las 04:29:55 PM CET 
 //
 
 
-package com.entregableweb.xml.moviles;
+package com.entregableWeb2.xml.moviles;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="nombre" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="Movil" type="{http://www.entregableWeb2.com/xml/moviles}Movil"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,36 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "nombre"
+    "movil"
 })
-@XmlRootElement(name = "MovilDetailsRequest")
-public class MovilDetailsRequest {
+@XmlRootElement(name = "MovilDetailsResponse")
+public class MovilDetailsResponse {
 
-    @XmlElement(required = true)
-    protected String nombre;
+    @XmlElement(name = "Movil", required = true)
+    protected Movil movil;
 
     /**
-     * Obtiene el valor de la propiedad nombre.
+     * Obtiene el valor de la propiedad movil.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link Movil }
      *     
      */
-    public String getNombre() {
-        return nombre;
+    public Movil getMovil() {
+        return movil;
     }
 
     /**
-     * Define el valor de la propiedad nombre.
+     * Define el valor de la propiedad movil.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link Movil }
      *     
      */
-    public void setNombre(String value) {
-        this.nombre = value;
+    public void setMovil(Movil value) {
+        this.movil = value;
     }
 
 }
