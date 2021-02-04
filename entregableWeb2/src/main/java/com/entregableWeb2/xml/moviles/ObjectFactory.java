@@ -2,7 +2,7 @@
 // Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.2.7 
 // Visite <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
-// Generado el: 2021.02.04 a las 04:29:55 PM CET 
+// Generado el: 2021.02.04 a las 05:37:23 PM CET 
 //
 
 
@@ -37,11 +37,35 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link MovilCaracteristicasResponse }
+     * 
+     */
+    public MovilCaracteristicasResponse createMovilCaracteristicasResponse() {
+        return new MovilCaracteristicasResponse();
+    }
+
+    /**
+     * Create an instance of {@link Caracteristicas }
+     * 
+     */
+    public Caracteristicas createCaracteristicas() {
+        return new Caracteristicas();
+    }
+
+    /**
      * Create an instance of {@link MovilDetailsRequest }
      * 
      */
     public MovilDetailsRequest createMovilDetailsRequest() {
         return new MovilDetailsRequest();
+    }
+
+    /**
+     * Create an instance of {@link MovilCaracteristicasRequest }
+     * 
+     */
+    public MovilCaracteristicasRequest createMovilCaracteristicasRequest() {
+        return new MovilCaracteristicasRequest();
     }
 
     /**

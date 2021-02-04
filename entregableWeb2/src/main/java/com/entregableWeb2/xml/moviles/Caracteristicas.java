@@ -11,21 +11,21 @@ package com.entregableWeb2.xml.moviles;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Clase Java para anonymous complex type.
+ * <p>Clase Java para Caracteristicas complex type.
  * 
  * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="Caracteristicas">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="marca" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="tamano" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="camara" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,37 +35,54 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "marca"
+@XmlType(name = "Caracteristicas", propOrder = {
+    "tamano",
+    "camara"
 })
-@XmlRootElement(name = "MovilBrandResponse")
-public class MovilBrandResponse {
+public class Caracteristicas {
 
+    protected int tamano;
     @XmlElement(required = true)
-    protected String marca;
+    protected String camara;
 
     /**
-     * Obtiene el valor de la propiedad marca.
+     * Obtiene el valor de la propiedad tamano.
+     * 
+     */
+    public int getTamano() {
+        return tamano;
+    }
+
+    /**
+     * Define el valor de la propiedad tamano.
+     * 
+     */
+    public void setTamano(int value) {
+        this.tamano = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad camara.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getMarca() {
-        return marca;
+    public String getCamara() {
+        return camara;
     }
 
     /**
-     * Define el valor de la propiedad marca.
+     * Define el valor de la propiedad camara.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setMarca(String value) {
-        this.marca = value;
+    public void setCamara(String value) {
+        this.camara = value;
     }
 
 }

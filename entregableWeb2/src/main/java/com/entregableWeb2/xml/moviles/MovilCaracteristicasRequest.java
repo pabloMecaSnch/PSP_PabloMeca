@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="marca" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="nombre" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,36 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "marca"
+    "nombre"
 })
-@XmlRootElement(name = "MovilBrandResponse")
-public class MovilBrandResponse {
+@XmlRootElement(name = "MovilCaracteristicasRequest")
+public class MovilCaracteristicasRequest {
 
     @XmlElement(required = true)
-    protected String marca;
+    protected String nombre;
 
     /**
-     * Obtiene el valor de la propiedad marca.
+     * Obtiene el valor de la propiedad nombre.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getMarca() {
-        return marca;
+    public String getNombre() {
+        return nombre;
     }
 
     /**
-     * Define el valor de la propiedad marca.
+     * Define el valor de la propiedad nombre.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setMarca(String value) {
-        this.marca = value;
+    public void setNombre(String value) {
+        this.nombre = value;
     }
 
 }

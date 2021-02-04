@@ -46,4 +46,13 @@ public class MovilEndpoint {
 
 		return response;
 	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "MovilCaracteristicasRequest")
+	@ResponsePayload
+	public MovilCaracteristicasResponse getMovil(@RequestPayload MovilCaracteristicasRequest request) {
+		MovilCaracteristicasResponse response = new MovilCaracteristicasResponse();
+		response.setCaracteristicas(MovilRepository.findCaracteristicas(request.getNombre()));
+
+		return response;
+	}
 }

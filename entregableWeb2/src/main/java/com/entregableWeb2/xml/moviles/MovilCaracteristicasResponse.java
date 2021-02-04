@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="marca" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="Caracteristicas" type="{http://www.entregableWeb2.com/xml/moviles}Caracteristicas"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,36 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "marca"
+    "caracteristicas"
 })
-@XmlRootElement(name = "MovilBrandResponse")
-public class MovilBrandResponse {
+@XmlRootElement(name = "MovilCaracteristicasResponse")
+public class MovilCaracteristicasResponse {
 
-    @XmlElement(required = true)
-    protected String marca;
+    @XmlElement(name = "Caracteristicas", required = true)
+    protected Caracteristicas caracteristicas;
 
     /**
-     * Obtiene el valor de la propiedad marca.
+     * Obtiene el valor de la propiedad caracteristicas.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link Caracteristicas }
      *     
      */
-    public String getMarca() {
-        return marca;
+    public Caracteristicas getCaracteristicas() {
+        return caracteristicas;
     }
 
     /**
-     * Define el valor de la propiedad marca.
+     * Define el valor de la propiedad caracteristicas.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link Caracteristicas }
      *     
      */
-    public void setMarca(String value) {
-        this.marca = value;
+    public void setCaracteristicas(Caracteristicas value) {
+        this.caracteristicas = value;
     }
 
 }

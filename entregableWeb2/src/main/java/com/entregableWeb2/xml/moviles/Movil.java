@@ -2,7 +2,7 @@
 // Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.2.7 
 // Visite <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
-// Generado el: 2021.02.04 a las 04:29:55 PM CET 
+// Generado el: 2021.02.04 a las 05:37:23 PM CET 
 //
 
 
@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="nombre" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="tamano" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="marca" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="camara" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -39,7 +40,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "Movil", propOrder = {
     "nombre",
     "tamano",
-    "marca"
+    "marca",
+    "camara"
 })
 public class Movil {
 
@@ -48,6 +50,8 @@ public class Movil {
     protected int tamano;
     @XmlElement(required = true)
     protected String marca;
+    @XmlElement(required = true)
+    protected String camara;
 
     /**
      * Obtiene el valor de la propiedad nombre.
@@ -111,6 +115,30 @@ public class Movil {
      */
     public void setMarca(String value) {
         this.marca = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad camara.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getCamara() {
+        return camara;
+    }
+
+    /**
+     * Define el valor de la propiedad camara.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setCamara(String value) {
+        this.camara = value;
     }
 
 }
