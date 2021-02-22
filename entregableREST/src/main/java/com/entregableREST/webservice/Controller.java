@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -79,6 +80,47 @@ public class Controller {
 	   @RequestMapping(value = "/profesores/{id}/materias", method = RequestMethod.GET)
 	   public ResponseEntity<Object> getProfesorMaterias(@PathVariable("id") String id) {
 	      return new ResponseEntity<>(profesorRepo.get(id).getMaterias(), HttpStatus.OK);
+	   }
+	   
+	   /**
+	    * Peticion para crear materias dentro de profesor
+	    * @param idProf id del profesor
+	    * @param materia materia nueva
+	    * @return
+	    */
+	   @RequestMapping(value="/profesores/{idProf}/materias",method = RequestMethod.POST)
+	   public ResponseEntity<Object> createMateriaProf(@PathVariable("idProf")String idProf,@RequestBody Materia materia){
+		   
+		   materiaRepo.put(materia.getNombre(), materia);
+		   profesorRepo.get(idProf).getMaterias().add(materia);
+		   return new ResponseEntity<>("meteria created",HttpStatus.OK);
+	   }
+	   
+	   /**
+	    * Petición para eliminar una materia desde profesor
+	    * @param id
+	    * @return
+	    */
+	   @RequestMapping(value = "/profesores/{idProf}/materias/{idMat}", method = RequestMethod.DELETE)
+	   public ResponseEntity<Object> deleteMatProf(@PathVariable("idProf") String idProf, @PathVariable("idMat") String idMat) { 
+		   profesorRepo.get(idProf).getMaterias().remove(idMat);
+		   materiaRepo.remove(idMat);
+
+	      return new ResponseEntity<>("Professor is deleted successsfully", HttpStatus.OK);
+	   }
+	   
+	   /**
+	    * Petición para
+	    * @param id
+	    * @param profesor
+	    * @return
+	    */
+	   @RequestMapping(value = "/profesores/{id}", method = RequestMethod.PUT)
+	   public ResponseEntity<Object> updateMateriaProf(@PathVariable("id") String id, @RequestBody Profesor profesor) { 
+	      profesorRepo.remove(id);
+	      profesor.setId(id);
+	      profesorRepo.put(id, profesor);
+	      return new ResponseEntity<>("Professor is updated successsfully", HttpStatus.OK);
 	   }
 	   /**
 	    * Petición para introducir un Profesor

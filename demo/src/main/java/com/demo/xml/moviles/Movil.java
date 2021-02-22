@@ -6,7 +6,7 @@
 //
 
 
-package com.entregablerecu.xml.moviles;
+package com.demo.xml.moviles;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
