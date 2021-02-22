@@ -32,33 +32,34 @@ public class Controller {
 		Profesor p1 = new Profesor();
 		 p1.setNombre("Alfonso");
 	     p1.setId("1");
-	     ArrayList<Materia> materiasP1 = new ArrayList<>();
-	     materiasP1.add(materiaRepo.get("1"));
-	     materiasP1.add(materiaRepo.get("2"));
-	     p1.setMaterias(materiasP1) ;
+	     Materia[] materiasP1 = new Materia[2];
+	     materiasP1[0]=materiaRepo.get("1");
+	     materiasP1[1]=materiaRepo.get("2");
+	     p1.addMateria();
 	     profesorRepo.put(p1.getId(), p1);
 	     
 	     //Profesor2
 	     Profesor almond = new Profesor();
 		 almond.setId("2");
 		 almond.setNombre("Almond");
-		 ArrayList<Materia> materiasP2 = new ArrayList<>();
-	     materiasP2.add(materiaRepo.get("3"));
-	     materiasP2.add(materiaRepo.get("5"));
-		 almond.setMaterias(materiasP2);
+		 Materia[] materiasP2 = new Materia[2];
+		 materiasP2[0]=(materiaRepo.get("3"));
+		 materiasP2[1]=(materiaRepo.get("5"));
+		 almond.addMateria(materiasP2);
 		 profesorRepo.put(almond.getId(), almond);
 	      
 		 //Alumno1
 		 Alumno al1 = new Alumno();
 		 al1.setId("1");
 		 al1.setNombre("Pedro");
-		 al1.setMaterias(materiasP1);
+		 al1.addMateria(materiasP2);
+		 
 		 alumnoRepo.put("1", al1);
 		 //Alumno2
 		 Alumno al2 = new Alumno();
 		 al2.setId("2");
 		 al2.setNombre("Sandra");
-		 al2.setMaterias(materiasP1);
+		 al2.addMateria(materiasP2);
 		 alumnoRepo.put("2", al2);
 	   }
 	
@@ -92,7 +93,7 @@ public class Controller {
 	   public ResponseEntity<Object> createMateriaProf(@PathVariable("idProf")String idProf,@RequestBody Materia materia){
 		   
 		   materiaRepo.put(materia.getNombre(), materia);
-		   profesorRepo.get(idProf).getMaterias().add(materia);
+		   profesorRepo.get(idProf).getMaterias().put(materia.getId(), materia);
 		   return new ResponseEntity<>("meteria created",HttpStatus.OK);
 	   }
 	   
@@ -105,21 +106,23 @@ public class Controller {
 	   public ResponseEntity<Object> deleteMatProf(@PathVariable("idProf") String idProf, @PathVariable("idMat") String idMat) { 
 		   profesorRepo.get(idProf).getMaterias().remove(idMat);
 		   materiaRepo.remove(idMat);
-
+		   alumnoRepo.forEach((key,alumno)->{
+			   alumno.getMaterias().remove(idMat);
+		   });
 	      return new ResponseEntity<>("Professor is deleted successsfully", HttpStatus.OK);
 	   }
 	   
 	   /**
-	    * Petición para
-	    * @param id
-	    * @param profesor
+	    * Petición para actuaalizar los datos de una materia en el profesor
+	    * @param id id del profesor
+	    * @param materia
 	    * @return
 	    */
-	   @RequestMapping(value = "/profesores/{id}", method = RequestMethod.PUT)
-	   public ResponseEntity<Object> updateMateriaProf(@PathVariable("id") String id, @RequestBody Profesor profesor) { 
-	      profesorRepo.remove(id);
-	      profesor.setId(id);
-	      profesorRepo.put(id, profesor);
+	   @RequestMapping(value = "/profesores/{id}/materia/{idMat}", method = RequestMethod.PUT)
+	   public ResponseEntity<Object> updateMateriaProf(@PathVariable("id") String id, @PathVariable("idMat") String idMat,@RequestBody Materia materia) {
+		   int idMateria = Integer.parseInt(idMat);
+	      profesorRepo.get(id).getMaterias().replace(idMat, materia);
+	      materiaRepo.replace(idMat, materiaRepo.get(idMat), materia);
 	      return new ResponseEntity<>("Professor is updated successsfully", HttpStatus.OK);
 	   }
 	   /**

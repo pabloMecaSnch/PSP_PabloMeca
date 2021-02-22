@@ -8,13 +8,13 @@ public class Profesor {
 
 	private String nombre;
 	private String id;
-	private ArrayList<Materia> materias;
+	private Map<String,Materia> materias;
 	
 	
-	public ArrayList<Materia> getMaterias() {
+	public Map<String, Materia> getMaterias() {
 		return materias;
 	}
-	public void setMaterias(ArrayList<Materia> materias) {
+	public void setMaterias(Map<String, Materia> materias) {
 		this.materias = materias;
 	}
 	public String getNombre() {
@@ -29,5 +29,13 @@ public class Profesor {
 	public void setId(String Id) {
 		this.id = Id;
 	}
-	
+	public void addMateria(Materia... materias) {
+		if(this.materias==null) {
+			this.materias= new HashMap<>();
+		}
+		for(int i = 0; i< materias.length ;i++) {
+			this.materias.put(materias[i].getId(), materias[i]);
+		}
+		
+	}
 }
